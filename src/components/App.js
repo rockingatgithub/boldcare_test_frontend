@@ -30,7 +30,7 @@ class App extends Component {
       showSuccess: false,
       showUser: false,
       showProduct: false,
-      totalList: 10,
+      totalList: 0,
     };
   }
 
@@ -209,10 +209,26 @@ class App extends Component {
     });
   };
 
-
   loadMoreHandler = () => {
-    
-  }
+    this.setState(
+      (state, props) => ({
+        totalList: state.totalList + 7,
+      }),
+      this.fetchNextReviews
+    );
+  };
+
+  fetchNextReviews = () => {
+    console.log("I did");
+    fetch(`http://localhost:9000/review/getMoreReviews/${this.state.totalList}`)
+      .then((res) => res.json())
+      .then((res) => {
+        console.log(res);
+        this.setState({
+          reviews: res.data,
+        });
+      });
+  };
 
   render() {
     return (
@@ -345,8 +361,15 @@ class App extends Component {
         </Row>
         <Row>
           <Col>
-          <Review reviews={this.state.reviews} />
-          <Button variant="light"> Load More</Button>
+            <Review reviews={this.state.reviews} />
+            <Button
+              variant="light"
+              onClick={this.loadMoreHandler}
+              id="load-more"
+            >
+              {" "}
+              Load More
+            </Button>
           </Col>
         </Row>
       </Container>

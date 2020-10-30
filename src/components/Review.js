@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Col, ListGroup, ListGroupItem, Badge, Button } from "react-bootstrap";
+import { ListGroup, ListGroupItem, Badge } from "react-bootstrap";
 
 class Review extends Component {
   constructor(props) {
@@ -7,20 +7,15 @@ class Review extends Component {
     this.state = {
       showComplete: false,
       index: -1,
-      stars: [],
-     
     };
   }
 
-  openReview = (ind, stars) => {
+  openReview = (ind) => {
     this.setState({
       index: ind,
-      stars: new Array(stars).fill(1),
       showComplete: true,
     });
   };
-
-  
 
   render() {
     return (
@@ -28,10 +23,7 @@ class Review extends Component {
         <h3>Ratings & Reviews:</h3>
         <ListGroup>
           {this.props.reviews.map((review, index) => (
-            <ListGroupItem
-              key={index}
-              onClick={() => this.openReview(index, review.stars)}
-            >
+            <ListGroupItem key={index} onClick={() => this.openReview(index)}>
               <Badge variant="light">{review.stars}</Badge>
               <img
                 src="https://www.flaticon.com/svg/static/icons/svg/929/929424.svg"
@@ -57,8 +49,7 @@ class Review extends Component {
             </ListGroupItem>
           ))}
         </ListGroup>
-        </React.Fragment> 
-      
+      </React.Fragment>
     );
   }
 }
