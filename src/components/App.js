@@ -11,7 +11,8 @@ import {
   Card,
   Navbar,
 } from "react-bootstrap";
-
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import Review from "./Review";
 
 class App extends Component {
@@ -102,19 +103,55 @@ class App extends Component {
     const { title, description, pid, cid } = this.state;
 
     if (title.length === 0) {
-      console.log("Enter title for review");
+      toast("Enter title for review", {
+        position: "top-right",
+        type: "info",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
       return;
     }
     if (description.length === 0) {
-      console.log("Enter description for review");
+      toast("Enter description for review", {
+        position: "top-right",
+        type: "info",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
       return;
     }
     if (pid.length === 0) {
-      console.log("Choose the product for review");
+      toast("Choose a product for review", {
+        position: "top-right",
+        type: "info",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
       return;
     }
     if (cid.length === 0) {
-      console.log("Choose a user for review");
+      toast("Choose a user from dropdown", {
+        position: "top-right",
+        type: "info",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
       return;
     }
 
@@ -279,7 +316,7 @@ class App extends Component {
               ))}
             </DropdownButton>
             {this.state.showProduct && (
-              <Card style={{ width: "18rem" }}>
+              <Card style={{ width: "18rem", marginTop: "20px" }}>
                 <Card.Img variant="top" />
                 <Card.Body>
                   <Card.Title>{this.state.product.name}</Card.Title>
@@ -311,7 +348,7 @@ class App extends Component {
               ))}
             </DropdownButton>
             {this.state.showUser && (
-              <Card style={{ width: "18rem" }}>
+              <Card style={{ width: "18rem", marginTop: "20px" }}>
                 <Card.Img variant="top" />
                 <Card.Body>
                   <Card.Title>{this.state.customer.name}</Card.Title>
