@@ -10,6 +10,8 @@ class Review extends Component {
     };
   }
 
+//   =======================================open full review function========================================
+
   openReview = (ind) => {
     this.setState({
       index: ind,

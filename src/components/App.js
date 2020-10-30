@@ -34,6 +34,8 @@ class App extends Component {
     };
   }
 
+  // =========================================initial product and user fetch==============================================
+
   componentDidMount = () => {
     fetch("http://localhost:9000/product/getProducts")
       .then((res) => res.json())
@@ -66,6 +68,8 @@ class App extends Component {
       });
   };
 
+  // ==================================choosing product and users functions======================================
+
   productSelect = (id) => {
     this.setState(
       {
@@ -89,6 +93,8 @@ class App extends Component {
       }
     );
   };
+
+  // =======================================handle review submit=================================================
 
   handleSubmit = (e) => {
     e.preventDefault();
@@ -208,6 +214,8 @@ class App extends Component {
       showSuccess: false,
     });
   };
+
+  // ====================================load more reviews function======================================
 
   loadMoreHandler = () => {
     this.setState(
