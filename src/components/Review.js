@@ -1,16 +1,64 @@
 import React, { Component } from "react";
-import { Col, ListGroup, ListGroupItem } from "react-bootstrap";
+import { Col, ListGroup, ListGroupItem, Badge, Button } from "react-bootstrap";
 
 class Review extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      showComplete: false,
+      index: -1,
+      stars: [],
+     
+    };
+  }
+
+  openReview = (ind, stars) => {
+    this.setState({
+      index: ind,
+      stars: new Array(stars).fill(1),
+      showComplete: true,
+    });
+  };
+
+  
+
   render() {
     return (
-      <Col>
+      <React.Fragment>
+        <h3>Ratings & Reviews:</h3>
         <ListGroup>
           {this.props.reviews.map((review, index) => (
-            <ListGroupItem key={index}>{review.title}</ListGroupItem>
+            <ListGroupItem
+              key={index}
+              onClick={() => this.openReview(index, review.stars)}
+            >
+              <Badge variant="light">{review.stars}</Badge>
+              <img
+                src="https://www.flaticon.com/svg/static/icons/svg/929/929424.svg"
+                height="20px"
+                width="20px"
+                alt="stars"
+              />{" "}
+              <span className="title">{review.title}</span>
+              <p className="content">{review.content}</p>
+              {this.state.showComplete && index === this.state.index && (
+                <React.Fragment>
+                  <p className="user">
+                    <span className="tagOption">User:</span>
+                    {review.customerId.name}
+                  </p>
+                  <p className="product">
+                    <span className="tagOption">Product:</span>{" "}
+                    {review.productId.name}
+                  </p>
+                  <p className="status">Status: {review.status}</p>
+                </React.Fragment>
+              )}
+            </ListGroupItem>
           ))}
         </ListGroup>
-      </Col>
+        </React.Fragment> 
+      
     );
   }
 }

@@ -9,6 +9,7 @@ import {
   Button,
   Modal,
   Card,
+  Navbar,
 } from "react-bootstrap";
 
 import Review from "./Review";
@@ -29,6 +30,7 @@ class App extends Component {
       showSuccess: false,
       showUser: false,
       showProduct: false,
+      totalList: 10,
     };
   }
 
@@ -50,6 +52,10 @@ class App extends Component {
         });
       });
 
+    this.fetchReviews();
+  };
+
+  fetchReviews = () => {
     fetch("http://localhost:9000/review/getReviews")
       .then((res) => res.json())
       .then((res) => {
@@ -122,10 +128,14 @@ class App extends Component {
     })
       .then((res) => res.json())
       .then((res) => {
-        this.setState({
-          showSuccess: true,
-        });
-        // console.log("You have successfully reviewed this product", res);
+        this.setState(
+          {
+            showSuccess: true,
+          },
+          () => {
+            this.fetchReviews();
+          }
+        );
       });
   };
 
@@ -199,14 +209,28 @@ class App extends Component {
     });
   };
 
+
+  loadMoreHandler = () => {
+    
+  }
+
   render() {
     return (
       <Container>
         <Row>
           <Col>
+            <Navbar bg="light" expand="lg">
+              <Navbar.Brand>Review Management System</Navbar.Brand>
+              <Navbar.Toggle aria-controls="basic-navbar-nav" />
+            </Navbar>
+          </Col>
+        </Row>
+        <Row id="row-second">
+          <Col>
             <DropdownButton
               id="dropdown-basic-button"
               title="Select Product For Review"
+              variant="light"
             >
               {this.state.products.map((product, index) => (
                 <Dropdown.Item
@@ -217,29 +241,6 @@ class App extends Component {
                 </Dropdown.Item>
               ))}
             </DropdownButton>
-            <DropdownButton id="dropdown-basic-button" title="Select User">
-              {this.state.users.map((user, index) => (
-                <Dropdown.Item
-                  onClick={() => this.userSelect(user._id)}
-                  key={index}
-                >
-                  {user.name}
-                </Dropdown.Item>
-              ))}
-            </DropdownButton>
-            <DropdownButton title="Choose Reviews">
-              <Dropdown.Item onClick={() => this.getTypeOfReviews("Accepted")}>
-                Accepted
-              </Dropdown.Item>
-              <Dropdown.Item onClick={() => this.getTypeOfReviews("Rejected")}>
-                Rejected
-              </Dropdown.Item>
-              <Dropdown.Item onClick={() => this.getTypeOfReviews("All")}>
-                All
-              </Dropdown.Item>
-            </DropdownButton>
-          </Col>
-          <Col>
             {this.state.showProduct && (
               <Card style={{ width: "18rem" }}>
                 <Card.Img variant="top" />
@@ -258,6 +259,20 @@ class App extends Component {
             )}
           </Col>
           <Col>
+            <DropdownButton
+              id="dropdown-basic-button"
+              title="Select User"
+              variant="light"
+            >
+              {this.state.users.map((user, index) => (
+                <Dropdown.Item
+                  onClick={() => this.userSelect(user._id)}
+                  key={index}
+                >
+                  {user.name}
+                </Dropdown.Item>
+              ))}
+            </DropdownButton>
             {this.state.showUser && (
               <Card style={{ width: "18rem" }}>
                 <Card.Img variant="top" />
@@ -271,10 +286,23 @@ class App extends Component {
               </Card>
             )}
           </Col>
-        </Row>
-        <Row>
           <Col>
-            <h1>Write a Review!</h1>
+            <DropdownButton title="Choose Reviews" variant="light">
+              <Dropdown.Item onClick={() => this.getTypeOfReviews("Accepted")}>
+                Accepted
+              </Dropdown.Item>
+              <Dropdown.Item onClick={() => this.getTypeOfReviews("Rejected")}>
+                Rejected
+              </Dropdown.Item>
+              <Dropdown.Item onClick={() => this.getTypeOfReviews("All")}>
+                All
+              </Dropdown.Item>
+            </DropdownButton>
+          </Col>
+        </Row>
+        <Row id="row-third">
+          <Col>
+            <h3>Review this product!</h3>
             <Form>
               <Form.Group>
                 <Form.Label>Review Title</Form.Label>
@@ -294,11 +322,7 @@ class App extends Component {
                 />
               </Form.Group>
 
-              <Button
-                variant="primary"
-                type="submit"
-                onClick={this.handleSubmit}
-              >
+              <Button variant="light" type="submit" onClick={this.handleSubmit}>
                 Submit Review
               </Button>
             </Form>
@@ -320,7 +344,10 @@ class App extends Component {
           </Col>
         </Row>
         <Row>
+          <Col>
           <Review reviews={this.state.reviews} />
+          <Button variant="light"> Load More</Button>
+          </Col>
         </Row>
       </Container>
     );
