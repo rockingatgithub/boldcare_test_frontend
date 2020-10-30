@@ -9,7 +9,8 @@ A review management system with node.js as backend and react as frontend.
 > Also clone the [frontend-repo](https://github.com/rockingatgithub/boldcare_test_frontend)
 > All front-end request API is on localhost:9000 and react runs on port 3000(by default).
 > If you want redirect request to other port make changes in the fetch-url in the react app.
-> There is a cloud mongoDB added as database.
+> Make sure you have nodemon installed on your system, otherwise run {npm install -g nodemon} to install nodemon.
+> MongoDB Atlas is added as database.
 
 Go to client directory and then run below command in terminal or cmd.
 

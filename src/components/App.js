@@ -31,6 +31,7 @@ class App extends Component {
       showUser: false,
       showProduct: false,
       totalList: 0,
+      loadPrevious: false,
     };
   }
 
@@ -226,6 +227,17 @@ class App extends Component {
     );
   };
 
+  loadPreviousHandler = () => {
+    if (this.state.totalList >= 7) {
+      this.setState(
+        (state, props) => ({
+          totalList: state.totalList - 7,
+        }),
+        this.fetchNextReviews
+      );
+    }
+  };
+
   fetchNextReviews = () => {
     console.log("I did");
     fetch(`http://localhost:9000/review/getMoreReviews/${this.state.totalList}`)
@@ -234,6 +246,7 @@ class App extends Component {
         console.log(res);
         this.setState({
           reviews: res.data,
+          loadPrevious: true,
         });
       });
   };
@@ -370,6 +383,16 @@ class App extends Component {
         <Row>
           <Col>
             <Review reviews={this.state.reviews} />
+            {this.state.loadPrevious && (
+              <Button
+                variant="light"
+                onClick={this.loadPreviousHandler}
+                id="load-previous"
+              >
+                {" "}
+                ...Previous
+              </Button>
+            )}
             <Button
               variant="light"
               onClick={this.loadMoreHandler}

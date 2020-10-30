@@ -34,3 +34,7 @@ body {
 #load-more {
   margin-top: 10px;
 }
+
+#load-previous {
+  margin-right: 10px;
+}
